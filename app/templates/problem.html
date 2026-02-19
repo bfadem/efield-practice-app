@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>New Problem</h1>
+<p>Compute the electric field at the Q1 charge position due to the other three charges.</p>
+<p>Grid spacing is 0.10 m per unit. Charges are in nC.</p>
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+<p><strong>Seed:</strong> {{ config.seed }}</p>
+<table>
+  <thead><tr><th>Quadrant</th><th>x</th><th>y</th><th>q (nC)</th></tr></thead>
+  <tbody>
+    {% for c in config.charges %}
+      <tr>
+        <td>
+          {% if c.x > 0 and c.y > 0 %}Q1 (target)
+          {% elif c.x < 0 and c.y > 0 %}Q2
+          {% elif c.x < 0 and c.y < 0 %}Q3
+          {% else %}Q4{% endif %}
+        </td>
+        <td>{{ c.x }}</td><td>{{ c.y }}</td><td>{{ c.q_nc }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<form method="post" action="{{ url_for('main.submit') }}" style="margin-top: 1rem;">
+  <label for="submitted_ex">Ex (N/C)</label>
+  <input id="submitted_ex" name="submitted_ex" placeholder="e.g., 3.2e4" required />
+  <br /><br />
+  <label for="submitted_ey">Ey (N/C)</label>
+  <input id="submitted_ey" name="submitted_ey" placeholder="e.g., -1.1e5" required />
+  <br /><br />
+  <button type="submit">Submit</button>
+</form>
+{% endblock %}
