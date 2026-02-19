@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>E-Field Practice</title>
+    <style>
+      body { font-family: Arial, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+      table { border-collapse: collapse; width: 100%; }
+      th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+      .error { color: #a00; }
+      .ok { color: #0a0; }
+      .nav { margin-bottom: 1rem; }
+      .nav a { margin-right: 1rem; }
+    </style>
+  </head>
+  <body>
+    {% if user_code %}
+      <div class="nav">
+        <strong>User:</strong> {{ user_code }}
+        <a href="{{ url_for('main.problem') }}">Problem</a>
+        <a href="{{ url_for('main.history') }}">History</a>
+        <a href="{{ url_for('main.change_user') }}">Change user</a>
+      </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </body>
+</html>
