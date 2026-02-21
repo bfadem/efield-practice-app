@@ -19,6 +19,7 @@ def create_app(test_config=None):
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         ADMIN_TOKEN=os.getenv("ADMIN_TOKEN", ""),
         DEFAULT_TOL_PERCENT=3.0,
+        DEFAULT_THETA_TOL_DEG=3.0,
     )
 
     if test_config:

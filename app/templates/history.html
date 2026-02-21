@@ -5,7 +5,7 @@
 <table>
   <thead>
     <tr>
-      <th>Time (UTC)</th><th>Seed</th><th>Score</th><th>Submitted Ex</th><th>Submitted Ey</th>
+      <th>Time (UTC)</th><th>Seed</th><th>Score</th><th>Submitted Ex</th><th>Submitted Ey</th><th>Submitted |E|</th><th>Submitted Theta</th>
     </tr>
   </thead>
   <tbody>
@@ -16,6 +16,8 @@
       <td>{{ a.score }}</td>
       <td>{{ a.submitted_ex }}</td>
       <td>{{ a.submitted_ey }}</td>
+      <td>{{ a.submitted_mag }}</td>
+      <td>{{ a.submitted_theta_deg }}</td>
     </tr>
     {% endfor %}
   </tbody>
