@@ -40,11 +40,11 @@ def upgrade() -> None:
     )
     op.add_column(
         "attempts",
-        sa.Column("mag_correct", sa.Boolean(), nullable=False, server_default=sa.text("0")),
+        sa.Column("mag_correct", sa.Boolean(), nullable=False, server_default=sa.text("false")),
     )
     op.add_column(
         "attempts",
-        sa.Column("theta_correct", sa.Boolean(), nullable=False, server_default=sa.text("0")),
+        sa.Column("theta_correct", sa.Boolean(), nullable=False, server_default=sa.text("false")),
     )
 
 
