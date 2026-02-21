@@ -1,3 +1,4 @@
+import math
 import random
 from dataclasses import dataclass
 
@@ -23,13 +24,22 @@ def generate_problem(seed: int):
     ]
     target = charges[0]
     ex, ey = field_at_target(target, charges[1:])
+    mag, theta_deg = magnitude_and_theta(ex, ey)
     return {
         "seed": seed,
         "charges": [charge.__dict__ for charge in charges],
         "target": {"x": target.x, "y": target.y},
         "correct_ex": ex,
         "correct_ey": ey,
+        "correct_mag": mag,
+        "correct_theta_deg": theta_deg,
     }
+
+
+def magnitude_and_theta(ex: float, ey: float):
+    mag = math.hypot(ex, ey)
+    theta_deg = math.degrees(math.atan2(ey, ex))
+    return mag, theta_deg
 
 
 def field_at_target(target: Charge, source_charges: list[Charge]):

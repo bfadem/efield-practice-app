@@ -66,21 +66,29 @@ def submit():
     try:
         submitted_ex = float(request.form.get("submitted_ex", ""))
         submitted_ey = float(request.form.get("submitted_ey", ""))
+        submitted_mag = float(request.form.get("submitted_mag", ""))
+        submitted_theta_deg = float(request.form.get("submitted_theta_deg", ""))
     except ValueError:
         return render_template(
             "problem.html",
             config=config,
             user_code=session["user_code"],
-            error="Please enter valid numeric values for Ex and Ey.",
+            error="Please enter valid numeric values for Ex, Ey, magnitude, and theta.",
         )
 
     tol = float(current_app.config["DEFAULT_TOL_PERCENT"])
+    tol_theta_deg = float(current_app.config["DEFAULT_THETA_TOL_DEG"])
     result = grade_submission(
         submitted_ex,
         submitted_ey,
+        submitted_mag,
+        submitted_theta_deg,
         config["correct_ex"],
         config["correct_ey"],
+        config["correct_mag"],
+        config["correct_theta_deg"],
         tol,
+        tol_theta_deg,
     )
 
     attempt = Attempt(
@@ -89,11 +97,18 @@ def submit():
         config_json=json.dumps(config),
         submitted_ex=submitted_ex,
         submitted_ey=submitted_ey,
+        submitted_mag=submitted_mag,
+        submitted_theta_deg=submitted_theta_deg,
         correct_ex=config["correct_ex"],
         correct_ey=config["correct_ey"],
+        correct_mag=config["correct_mag"],
+        correct_theta_deg=config["correct_theta_deg"],
         tol_percent=tol,
+        tol_theta_deg=tol_theta_deg,
         ex_correct=result["ex_correct"],
         ey_correct=result["ey_correct"],
+        mag_correct=result["mag_correct"],
+        theta_correct=result["theta_correct"],
         score=result["score"],
     )
     db.session.add(attempt)
@@ -105,8 +120,11 @@ def submit():
         attempt=attempt,
         correct_ex=config["correct_ex"],
         correct_ey=config["correct_ey"],
+        correct_mag=config["correct_mag"],
+        correct_theta_deg=config["correct_theta_deg"],
         user_code=session["user_code"],
         tol=tol,
+        tol_theta_deg=tol_theta_deg,
     )
 
 
@@ -141,11 +159,18 @@ def export_csv():
             "config_json",
             "submitted_ex",
             "submitted_ey",
+            "submitted_mag",
+            "submitted_theta_deg",
             "correct_ex",
             "correct_ey",
+            "correct_mag",
+            "correct_theta_deg",
             "tol_percent",
+            "tol_theta_deg",
             "ex_correct",
             "ey_correct",
+            "mag_correct",
+            "theta_correct",
             "score",
         ]
     )
@@ -160,11 +185,18 @@ def export_csv():
                 a.config_json,
                 a.submitted_ex,
                 a.submitted_ey,
+                a.submitted_mag,
+                a.submitted_theta_deg,
                 a.correct_ex,
                 a.correct_ey,
+                a.correct_mag,
+                a.correct_theta_deg,
                 a.tol_percent,
+                a.tol_theta_deg,
                 a.ex_correct,
                 a.ey_correct,
+                a.mag_correct,
+                a.theta_correct,
                 a.score,
             ]
         )
