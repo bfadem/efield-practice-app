@@ -13,9 +13,12 @@ def create_app(test_config=None):
     if db_url and db_url.startswith("postgres://"):
         db_url = db_url.replace("postgres://", "postgresql://", 1)
 
+    os.makedirs(app.instance_path, exist_ok=True)
+    default_db_uri = f"sqlite:///{os.path.join(app.instance_path, 'app.db')}"
+
     app.config.from_mapping(
         SECRET_KEY=os.getenv("SECRET_KEY", "dev-secret-key"),
-        SQLALCHEMY_DATABASE_URI=db_url or "sqlite:///app.db",
+        SQLALCHEMY_DATABASE_URI=db_url or default_db_uri,
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         ADMIN_TOKEN=os.getenv("ADMIN_TOKEN", ""),
         DEFAULT_TOL_PERCENT=3.0,
