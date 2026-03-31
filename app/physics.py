@@ -25,6 +25,8 @@ def generate_problem(seed: int):
     target = charges[0]
     ex, ey = field_at_target(target, charges[1:])
     mag, theta_deg = magnitude_and_theta(ex, ey)
+    force_mag = abs(target.q_nc) * NANOCOULOMB_TO_COULOMB * mag
+    force_dir = "parallel" if target.q_nc > 0 else "antiparallel"
     return {
         "seed": seed,
         "charges": [charge.__dict__ for charge in charges],
@@ -33,6 +35,8 @@ def generate_problem(seed: int):
         "correct_ey": ey,
         "correct_mag": mag,
         "correct_theta_deg": theta_deg,
+        "correct_force_mag": force_mag,
+        "correct_force_dir": force_dir,
     }
 
 

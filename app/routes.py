@@ -63,17 +63,26 @@ def submit():
     if not config:
         return redirect(url_for("main.problem"))
 
+    submitted_force_dir = request.form.get("submitted_force_dir", "").strip()
     try:
         submitted_ex = float(request.form.get("submitted_ex", ""))
         submitted_ey = float(request.form.get("submitted_ey", ""))
         submitted_mag = float(request.form.get("submitted_mag", ""))
         submitted_theta_deg = float(request.form.get("submitted_theta_deg", ""))
+        submitted_force_mag = float(request.form.get("submitted_force_mag", ""))
     except ValueError:
         return render_template(
             "problem.html",
             config=config,
             user_code=session["user_code"],
-            error="Please enter valid numeric values for Ex, Ey, magnitude, and theta.",
+            error="Please enter valid numeric values for Ex, Ey, magnitude, theta, and force magnitude.",
+        )
+    if submitted_force_dir not in ("parallel", "antiparallel"):
+        return render_template(
+            "problem.html",
+            config=config,
+            user_code=session["user_code"],
+            error="Please select parallel or antiparallel for the force direction.",
         )
 
     tol = float(current_app.config["DEFAULT_TOL_PERCENT"])
@@ -83,10 +92,14 @@ def submit():
         submitted_ey,
         submitted_mag,
         submitted_theta_deg,
+        submitted_force_mag,
+        submitted_force_dir,
         config["correct_ex"],
         config["correct_ey"],
         config["correct_mag"],
         config["correct_theta_deg"],
+        config["correct_force_mag"],
+        config["correct_force_dir"],
         tol,
         tol_theta_deg,
     )
@@ -99,16 +112,22 @@ def submit():
         submitted_ey=submitted_ey,
         submitted_mag=submitted_mag,
         submitted_theta_deg=submitted_theta_deg,
+        submitted_force_mag=submitted_force_mag,
+        submitted_force_dir=submitted_force_dir,
         correct_ex=config["correct_ex"],
         correct_ey=config["correct_ey"],
         correct_mag=config["correct_mag"],
         correct_theta_deg=config["correct_theta_deg"],
+        correct_force_mag=config["correct_force_mag"],
+        correct_force_dir=config["correct_force_dir"],
         tol_percent=tol,
         tol_theta_deg=tol_theta_deg,
         ex_correct=result["ex_correct"],
         ey_correct=result["ey_correct"],
         mag_correct=result["mag_correct"],
         theta_correct=result["theta_correct"],
+        force_mag_correct=result["force_mag_correct"],
+        force_dir_correct=result["force_dir_correct"],
         score=result["score"],
     )
     db.session.add(attempt)
@@ -122,6 +141,8 @@ def submit():
         correct_ey=config["correct_ey"],
         correct_mag=config["correct_mag"],
         correct_theta_deg=config["correct_theta_deg"],
+        correct_force_mag=config["correct_force_mag"],
+        correct_force_dir=config["correct_force_dir"],
         user_code=session["user_code"],
         tol=tol,
         tol_theta_deg=tol_theta_deg,
@@ -161,16 +182,22 @@ def export_csv():
             "submitted_ey",
             "submitted_mag",
             "submitted_theta_deg",
+            "submitted_force_mag",
+            "submitted_force_dir",
             "correct_ex",
             "correct_ey",
             "correct_mag",
             "correct_theta_deg",
+            "correct_force_mag",
+            "correct_force_dir",
             "tol_percent",
             "tol_theta_deg",
             "ex_correct",
             "ey_correct",
             "mag_correct",
             "theta_correct",
+            "force_mag_correct",
+            "force_dir_correct",
             "score",
         ]
     )
@@ -187,16 +214,22 @@ def export_csv():
                 a.submitted_ey,
                 a.submitted_mag,
                 a.submitted_theta_deg,
+                a.submitted_force_mag,
+                a.submitted_force_dir,
                 a.correct_ex,
                 a.correct_ey,
                 a.correct_mag,
                 a.correct_theta_deg,
+                a.correct_force_mag,
+                a.correct_force_dir,
                 a.tol_percent,
                 a.tol_theta_deg,
                 a.ex_correct,
                 a.ey_correct,
                 a.mag_correct,
                 a.theta_correct,
+                a.force_mag_correct,
+                a.force_dir_correct,
                 a.score,
             ]
         )

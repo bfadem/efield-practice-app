@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>New Problem</h1>
-<p>Compute the electric field at the Q1 charge position due to the other three charges.</p>
+<h1>Quadruplets</h1>
+<p style="font-size: 0.85em; max-width: 600px;">
+  There are four electric charges located in space as listed in the table below.
+  You are to determine the electric field at the location of charge Q1 due to the other three charges.
+  In this scheme Q2, Q3, and Q4 are the "source" charges and Q1 is the target or test charge.
+  Assuming standard directions for x and y, please find the components of the electric field at the location of Q1,
+  the magnitude of the field at Q1, the magnitude of the force at Q1, and whether the force is parallel or antiparallel
+  to the field direction (consider why the force must be either parallel or antiparallel to the net field at the location of Q1).
+</p>
 <p>Grid spacing is 0.10 m per unit. Charges are in nC.</p>
 {% if error %}<p class="error">{{ error }}</p>{% endif %}
 <p><strong>Seed:</strong> {{ config.seed }}</p>
@@ -33,6 +40,16 @@
   <br /><br />
   <label for="submitted_theta_deg">Theta (deg, from +x axis)</label>
   <input id="submitted_theta_deg" name="submitted_theta_deg" placeholder="e.g., -35" required />
+  <br /><br />
+  <label for="submitted_force_mag">|F| on Q1 (N)</label>
+  <input id="submitted_force_mag" name="submitted_force_mag" placeholder="e.g., 2.4e-4" required />
+  <br /><br />
+  <label>Force on Q1 direction relative to electric field:</label><br />
+  <input type="radio" id="force_parallel" name="submitted_force_dir" value="parallel" required />
+  <label for="force_parallel">Parallel</label>
+  &nbsp;&nbsp;
+  <input type="radio" id="force_antiparallel" name="submitted_force_dir" value="antiparallel" />
+  <label for="force_antiparallel">Antiparallel</label>
   <br /><br />
   <button type="submit">Submit</button>
 </form>

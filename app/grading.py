@@ -15,10 +15,14 @@ def grade_submission(
     sub_ey: float,
     sub_mag: float,
     sub_theta_deg: float,
+    sub_force_mag: float,
+    sub_force_dir: str,
     corr_ex: float,
     corr_ey: float,
     corr_mag: float,
     corr_theta_deg: float,
+    corr_force_mag: float,
+    corr_force_dir: str,
     tol_percent: float,
     tol_theta_deg: float,
 ):
@@ -26,11 +30,15 @@ def grade_submission(
     ey_correct = within_percent_tolerance(sub_ey, corr_ey, tol_percent)
     mag_correct = within_percent_tolerance(sub_mag, corr_mag, tol_percent)
     theta_correct = angle_diff_deg(sub_theta_deg, corr_theta_deg) <= tol_theta_deg
-    score = float(ex_correct) + float(ey_correct) + float(mag_correct) + float(theta_correct)
+    force_mag_correct = within_percent_tolerance(sub_force_mag, corr_force_mag, tol_percent)
+    force_dir_correct = sub_force_dir == corr_force_dir
+    score = float(ex_correct) + float(ey_correct) + float(mag_correct) + float(theta_correct) + float(force_mag_correct) + float(force_dir_correct)
     return {
         "ex_correct": ex_correct,
         "ey_correct": ey_correct,
         "mag_correct": mag_correct,
         "theta_correct": theta_correct,
+        "force_mag_correct": force_mag_correct,
+        "force_dir_correct": force_dir_correct,
         "score": score,
     }

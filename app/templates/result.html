@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Result</h1>
-<p>Score: <strong>{{ result.score }} / 4</strong></p>
+<p>Score: <strong>{{ result.score }} / 6</strong></p>
 <ul>
   <li>Ex submitted: {{ attempt.submitted_ex }} — {% if result.ex_correct %}<span class="ok">correct</span>{% else %}<span class="error">outside tolerance</span>{% endif %}</li>
   <li>Ey submitted: {{ attempt.submitted_ey }} — {% if result.ey_correct %}<span class="ok">correct</span>{% else %}<span class="error">outside tolerance</span>{% endif %}</li>
   <li>|E| submitted: {{ attempt.submitted_mag }} — {% if result.mag_correct %}<span class="ok">correct</span>{% else %}<span class="error">outside tolerance</span>{% endif %}</li>
   <li>Theta submitted: {{ attempt.submitted_theta_deg }} deg — {% if result.theta_correct %}<span class="ok">correct</span>{% else %}<span class="error">outside tolerance</span>{% endif %}</li>
+  <li>|F| submitted: {{ attempt.submitted_force_mag }} N — {% if result.force_mag_correct %}<span class="ok">correct</span>{% else %}<span class="error">outside tolerance</span>{% endif %}</li>
+  <li>Force direction submitted: {{ attempt.submitted_force_dir }} — {% if result.force_dir_correct %}<span class="ok">correct</span>{% else %}<span class="error">incorrect</span>{% endif %}</li>
 </ul>
 <p>Correct Ex: {{ '%.6g'|format(correct_ex) }} N/C</p>
 <p>Correct Ey: {{ '%.6g'|format(correct_ey) }} N/C</p>
 <p>Correct |E|: {{ '%.6g'|format(correct_mag) }} N/C</p>
 <p>Correct Theta: {{ '%.6g'|format(correct_theta_deg) }} deg</p>
+<p>Correct |F|: {{ '%.6g'|format(correct_force_mag) }} N</p>
+<p>Correct force direction: {{ correct_force_dir }}</p>
 <p>Component tolerance: {{ tol }}%</p>
 <p>Theta tolerance: {{ tol_theta_deg }} deg</p>
 <p>
