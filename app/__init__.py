@@ -20,6 +20,7 @@ def create_app(test_config=None):
         SECRET_KEY=os.getenv("SECRET_KEY", "dev-secret-key"),
         SQLALCHEMY_DATABASE_URI=db_url or default_db_uri,
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
+        SQLALCHEMY_ENGINE_OPTIONS={"pool_pre_ping": True},
         ADMIN_TOKEN=os.getenv("ADMIN_TOKEN", ""),
         DEFAULT_TOL_PERCENT=3.0,
         DEFAULT_THETA_TOL_DEG=3.0,
